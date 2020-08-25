@@ -8,6 +8,8 @@ import {
 } from "ag-grid-community";
 import ExampleCellComponent from "../ExampleCellComponent";
 
+import { RowSpanParams } from "ag-grid-community/dist/lib/entities/colDef";
+
 import "ag-grid-enterprise/dist/styles/ag-grid.css";
 import "ag-grid-enterprise/dist/styles/ag-theme-material.css";
 
@@ -23,6 +25,7 @@ interface iColumns {
       }
     | ICellRendererFunc
     | string;
+  rowSpan?: (params: RowSpanParams) => number;
   valueGetter?: any;
 }
 
@@ -57,6 +60,12 @@ export const SampleGrid = () => {
       headerName: "First Name",
       field: "firstName",
       editable: true,
+      rowSpan: (params) => {
+        console.log(params);
+        const { field } = params.colDef;
+        console.log("field in params -> ", field);
+        return field === "firstName1" ? 1 : 2;
+      },
     },
     { headerName: "Last Name", field: "lastName", editable: false },
     { headerName: "Address", field: "address", editable: false },
@@ -1182,6 +1191,8 @@ export const SampleGrid = () => {
       <AgGridReact
         columnDefs={columnDef}
         rowData={rowData}
+        pagination={true}
+        suppressRowTransform={true}
         defaultColDef={{
           sortable: true,
         }}
