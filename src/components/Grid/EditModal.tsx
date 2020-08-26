@@ -13,15 +13,14 @@ const frameworkComponents = {
   exampleCellComponent: ExampleCellComponent,
 };
 
-export const SampleGrid = () => {
+const EditModal = () => {
   const [rowData, setRowData] = useState(exampleRowData);
+  // const [];
 
   const onGridReady = (params: GridReadyEvent): void => {
     console.log("test");
     console.log(params);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <div
@@ -42,3 +41,5 @@ export const SampleGrid = () => {
     </div>
   );
 };
+
+export default EditModal;

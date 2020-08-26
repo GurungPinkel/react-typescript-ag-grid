@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
 
-import { SampleGrid } from "./components/Grid";
+import EditModal from "./components/Grid/EditModal";
+
 function App() {
   return (
     <div className="App">
-      <SampleGrid />
+      <EditModal />
     </div>
   );
 }
