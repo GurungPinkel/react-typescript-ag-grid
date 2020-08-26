@@ -7,7 +7,7 @@ import "ag-grid-enterprise/dist/styles/ag-grid.css";
 import "ag-grid-enterprise/dist/styles/ag-theme-material.css";
 
 import { columnDef } from "./columnDef";
-import { exampleRowData, iData } from "./exampleRowData";
+import { exampleRowData, iBottomRowData, iData } from "./exampleRowData";
 
 const frameworkComponents = {
   exampleCellComponent: ExampleCellComponent,
@@ -15,15 +15,17 @@ const frameworkComponents = {
 
 export const SampleGrid = () => {
   const [rowData, setRowData] = useState(exampleRowData);
-  const [bottomRowData, setBottomRowData] = useState<any[] | undefined>();
+  const [bottomRowData, setBottomRowData] = useState<
+    iBottomRowData[] | undefined
+  >();
 
   const onGridReady = (params: GridReadyEvent): void => {
     console.log("test");
     console.log(params);
   };
 
-  useEffect(() => {
-    setBottomRowData([
+  const createBottomRowData = (rowData: iData[]): iBottomRowData[] => {
+    return [
       rowData.reduce(
         (bottomRowData, curr) => {
           bottomRowData.number += curr.number;
@@ -31,7 +33,11 @@ export const SampleGrid = () => {
         },
         { number: 0 }
       ),
-    ]);
+    ];
+  };
+
+  useEffect(() => {
+    setBottomRowData(createBottomRowData(rowData));
   }, []);
 
   return (
