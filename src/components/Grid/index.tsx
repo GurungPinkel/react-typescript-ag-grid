@@ -7,7 +7,7 @@ import "ag-grid-enterprise/dist/styles/ag-grid.css";
 import "ag-grid-enterprise/dist/styles/ag-theme-material.css";
 
 import { columnDef } from "./columnDef";
-import { exampleRowData } from "./exampleRowData";
+import { exampleRowData, iData } from "./exampleRowData";
 
 const frameworkComponents = {
   exampleCellComponent: ExampleCellComponent,
@@ -15,13 +15,24 @@ const frameworkComponents = {
 
 export const SampleGrid = () => {
   const [rowData, setRowData] = useState(exampleRowData);
+  const [bottomRowData, setBottomRowData] = useState<any[] | undefined>();
 
   const onGridReady = (params: GridReadyEvent): void => {
     console.log("test");
     console.log(params);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setBottomRowData([
+      rowData.reduce(
+        (bottomRowData, curr) => {
+          bottomRowData.number += curr.number;
+          return bottomRowData;
+        },
+        { number: 0 }
+      ),
+    ]);
+  }, []);
 
   return (
     <div
@@ -31,6 +42,7 @@ export const SampleGrid = () => {
       <AgGridReact
         columnDefs={columnDef}
         rowData={rowData}
+        pinnedBottomRowData={bottomRowData}
         defaultColDef={{
           sortable: true,
         }}
