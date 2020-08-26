@@ -13,7 +13,7 @@ const frameworkComponents = {
   exampleCellComponent: ExampleCellComponent,
 };
 
-export const SampleGrid = () => {
+const FooterTotals = () => {
   const [rowData, setRowData] = useState(exampleRowData);
   const [bottomRowData, setBottomRowData] = useState<
     iBottomRowData[] | undefined
@@ -60,3 +60,5 @@ export const SampleGrid = () => {
     </div>
   );
 };
+
+export default FooterTotals;

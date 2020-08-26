@@ -11,6 +11,10 @@ export interface iData {
   number: number;
 }
 
+export interface iBottomRowData {
+  number: number;
+}
+
 export const exampleRowData: iData[] = [
   {
     id: "7324",

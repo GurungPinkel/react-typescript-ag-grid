@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
 
-import { SampleGrid } from "./components/Grid";
+import FooterTotals from "./components/Grid/FooterTotals";
+
 function App() {
   return (
     <div className="App">
-      <SampleGrid />
+      <FooterTotals />
     </div>
   );
 }
