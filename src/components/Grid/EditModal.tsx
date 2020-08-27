@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalOpenSet } from '../../actions/actions';
+import {
+  loadingSet,
+  modalOpenSet,
+  snackbarOpenSet,
+} from '../../actions/actions';
 import {
   GridReadyEvent,
   NewValueParams,
@@ -11,6 +15,8 @@ import {
 import { RootState } from '../../reducers';
 
 import ExampleCellComponent from '../ExampleCellComponent';
+import LoadingSpinner from '../LoadingSpinner';
+import Snackbar from '../Snackbar';
 import TransitionsModal from '../TransitionsModal';
 
 import 'ag-grid-enterprise/dist/styles/ag-grid.css';
@@ -29,8 +35,12 @@ const EditModal = () => {
   const [oldCellValue, setOldCellValue] = useState<string>();
   const [colId, setColId] = useState<string | Column>('');
   const [rowNode, setRowNode] = useState<RowNode>();
-  const { modalOpen } = useSelector((state: RootState) => state.reducer);
+  const { isLoading, modalOpen } = useSelector(
+    (state: RootState) => state.reducer
+  );
   const dispatch = useDispatch();
+
+  console.log('isLoaidng ->', isLoading);
 
   const onGridReady = (params: GridReadyEvent): void => {
     console.log('test');
@@ -58,27 +68,35 @@ const EditModal = () => {
 
     // temp validation
     if (newValue.length > 1 && !modalOpen) {
+      // open modal
       dispatch(modalOpenSet(true));
     }
     // TODO: add error handler if newValue is undefined
   };
 
   const handleModalClose = (): void => {
+    // remove newVal from cell and replace with oldVal
     if (rowNode) rowNode.setDataValue(colId, oldCellValue);
+
     // TODO: add error handler if rowNode is undefined
 
-    // set timeout to trigger event after async setDataValue call
+    // set timeout to trigger modal close after async setDataValue call
     setTimeout(() => {
       dispatch(modalOpenSet(false));
     }, 0);
   };
 
   const handleModalSubmit = (): void => {
+    // close modal
     dispatch(modalOpenSet(false));
+
     // put newCellValue to the backend
 
     // loading spinner
+    dispatch(loadingSet(true));
+
     // snackbar
+    dispatch(snackbarOpenSet(true));
   };
 
   return (
@@ -90,6 +108,7 @@ const EditModal = () => {
         handleModalClose={handleModalClose}
         handleModalSubmit={handleModalSubmit}
       />
+      {isLoading && <LoadingSpinner />}
       <AgGridReact
         columnDefs={columnDef}
         rowData={rowData}
@@ -102,6 +121,7 @@ const EditModal = () => {
         debug={process.env.NODE_ENV === 'development'}
         onGridReady={onGridReady}
       ></AgGridReact>
+      <Snackbar />
     </div>
   );
 };

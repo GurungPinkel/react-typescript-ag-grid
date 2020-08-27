@@ -2,7 +2,12 @@ import { ActionType } from './types';
 import { Dispatch } from 'redux';
 import { instance1 } from '../axios';
 
-const { LOADING_SET, MESSAGE_SEND, MODAL_OPEN_SET } = ActionType;
+const {
+  LOADING_SET,
+  MESSAGE_SEND,
+  MODAL_OPEN_SET,
+  SNACKBAR_OPEN_SET,
+} = ActionType;
 
 // LOADING SET
 export interface LoadingSetPayload {
@@ -58,4 +63,21 @@ export interface ModalOpenSetAction {
 export const modalOpenSet = (modalOpen: boolean): ModalOpenSetAction => ({
   type: MODAL_OPEN_SET,
   payload: { modalOpen },
+});
+
+// Snackbar Open SEt
+export interface SnackbarOpenSetPayload {
+  snackbarOpen: boolean;
+}
+
+export interface SnackbarOpenSetAction {
+  type: typeof SNACKBAR_OPEN_SET;
+  payload: SnackbarOpenSetPayload;
+}
+
+export const snackbarOpenSet = (
+  snackbarOpen: boolean
+): SnackbarOpenSetAction => ({
+  type: SNACKBAR_OPEN_SET,
+  payload: { snackbarOpen },
 });
