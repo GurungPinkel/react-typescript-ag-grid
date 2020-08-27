@@ -1,10 +1,11 @@
-import { ActionType, Action } from '../actions';
-import { State } from './reducerTypes';
+import { ActionType, Action } from "../actions";
+import { State } from "./reducerTypes";
 
-const { MESSAGE_SEND } = ActionType;
+const { MESSAGE_SEND, MODAL_OPEN_SET } = ActionType;
 
 export const initialState: State = {
-  message: 'React Starter App is working with TypeScript & Redux'
+  message: "React Starter App is working with TypeScript & Redux",
+  modalOpen: false,
 };
 
 export const reducer = (state: State = initialState, action: Action): State => {
@@ -13,7 +14,15 @@ export const reducer = (state: State = initialState, action: Action): State => {
       const { message } = action.payload;
       return {
         ...state,
-        message
+        message,
+      };
+    }
+    case MODAL_OPEN_SET: {
+      const { modalOpen } = action.payload;
+
+      return {
+        ...state,
+        modalOpen,
       };
     }
     default:
