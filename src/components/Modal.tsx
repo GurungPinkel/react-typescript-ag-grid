@@ -1,37 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
-
-const rand = (): number => {
-  return Math.round(Math.random() * 20) - 10;
-};
-
-interface ModalStyle {
-  top: string;
-  left: string;
-  transform: string;
-}
-
-interface SimpleModalProps {
-  modalOpen: boolean;
-}
-
-const getModalStyle = (): ModalStyle => {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-};
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../reducers";
+import { modalOpenSet } from "../actions";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    modal: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
     paper: {
-      position: "absolute",
-      width: 400,
       backgroundColor: theme.palette.background.paper,
       border: "2px solid #000",
       boxShadow: theme.shadows[5],
@@ -40,36 +23,42 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SimpleModal = ({ modalOpen }: SimpleModalProps) => {
+const TransitionsModal = () => {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = useState(getModalStyle);
-  const [open, setOpen] = useState(modalOpen);
+  const { modalOpen } = useSelector((state: RootState) => state.reducer);
+  const dispatch = useDispatch();
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleModalClose = (): void => {
+    dispatch(modalOpenSet(false));
   };
-
-  const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">Are you sure you want to chang ethis?</p>
-      <SimpleModal modalOpen={false} />
-    </div>
-  );
 
   return (
     <div>
       <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={modalOpen}
+        onClose={handleModalClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
       >
-        {body}
+        <Fade in={modalOpen}>
+          <div className={classes.paper}>
+            <button onClick={handleModalClose}>x</button>
+            <h2 id="transition-modal-title">Transition modal</h2>
+            <p id="transition-modal-description">
+              react-transition-group animates me.
+            </p>
+            <button>Save Changes</button>
+          </div>
+        </Fade>
       </Modal>
     </div>
   );
 };
 
-export default SimpleModal;
+export default TransitionsModal;
