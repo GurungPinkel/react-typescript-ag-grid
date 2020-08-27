@@ -75,7 +75,8 @@ const EditModal = () => {
 
   const handleModalSubmit = (): void => {
     dispatch(modalOpenSet(false));
-    // put new data to the backend
+    // put newCellValue to the backend
+
     // loading spinner
     // snackbar
   };

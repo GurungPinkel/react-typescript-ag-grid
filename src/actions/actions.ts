@@ -1,9 +1,25 @@
-import { ActionType } from "./types";
-import { Dispatch } from "redux";
-import { instance1 } from "../axios";
+import { ActionType } from './types';
+import { Dispatch } from 'redux';
+import { instance1 } from '../axios';
 
-const { MESSAGE_SEND, MODAL_OPEN_SET } = ActionType;
+const { LOADING_SET, MESSAGE_SEND, MODAL_OPEN_SET } = ActionType;
 
+// LOADING SET
+export interface LoadingSetPayload {
+  isLoading: boolean;
+}
+
+export interface LoadingSetAction {
+  type: typeof LOADING_SET;
+  payload: LoadingSetPayload;
+}
+
+export const loadingSet = (isLoading: boolean): LoadingSetAction => ({
+  type: LOADING_SET,
+  payload: { isLoading },
+});
+
+// MESSAGE SEND
 export interface MessageSendPayload {
   message: string;
 }
@@ -20,7 +36,7 @@ export const messageSend = (message: string): MessageSendAction => ({
 
 export const messageSendThunk = () => {
   return async (dispatch: Dispatch) => {
-    const response = await instance1.get<MessageSendPayload>("some fake url");
+    const response = await instance1.get<MessageSendPayload>('some fake url');
 
     dispatch<MessageSendAction>({
       type: MESSAGE_SEND,
@@ -29,6 +45,7 @@ export const messageSendThunk = () => {
   };
 };
 
+// MODAL OPEN SET
 export interface ModalOpenSetPayload {
   modalOpen: boolean;
 }

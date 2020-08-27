@@ -1,15 +1,24 @@
-import { ActionType, Action } from "../actions";
-import { State } from "./reducerTypes";
+import { ActionType, Action } from '../actions';
+import { State } from './reducerTypes';
 
-const { MESSAGE_SEND, MODAL_OPEN_SET } = ActionType;
+const { LOADING_SET, MESSAGE_SEND, MODAL_OPEN_SET } = ActionType;
 
 export const initialState: State = {
-  message: "React Starter App is working with TypeScript & Redux",
+  isLoading: false,
+  message: 'React Starter App is working with TypeScript & Redux',
   modalOpen: false,
 };
 
 export const reducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
+    case LOADING_SET: {
+      const { isLoading } = action.payload;
+
+      return {
+        ...state,
+        isLoading,
+      };
+    }
     case MESSAGE_SEND: {
       const { message } = action.payload;
       return {
