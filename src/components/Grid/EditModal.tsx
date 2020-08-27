@@ -14,7 +14,7 @@ const frameworkComponents = {
 };
 
 const EditModal = () => {
-  const [rowData, setRowData] = useState(exampleRowData);
+  const [rowData] = useState(exampleRowData);
   // const [];
 
   const onGridReady = (params: GridReadyEvent): void => {
