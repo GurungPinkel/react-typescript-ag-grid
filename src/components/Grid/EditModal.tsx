@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { modalOpenSet } from '../../actions/actions';
 import {
   GridReadyEvent,
@@ -8,6 +8,7 @@ import {
   RowNode,
   Column,
 } from 'ag-grid-community';
+import { RootState } from '../../reducers';
 
 import ExampleCellComponent from '../ExampleCellComponent';
 import TransitionsModal from '../TransitionsModal';
@@ -28,6 +29,7 @@ const EditModal = () => {
   const [oldCellValue, setOldCellValue] = useState<string>();
   const [colId, setColId] = useState<string | Column>('');
   const [rowNode, setRowNode] = useState<RowNode>();
+  const { modalOpen } = useSelector((state: RootState) => state.reducer);
   const dispatch = useDispatch();
 
   const onGridReady = (params: GridReadyEvent): void => {
@@ -48,8 +50,6 @@ const EditModal = () => {
     const { column, newValue, node, oldValue } = params;
     const colId = column.getColId();
 
-    console.log('params', params.column);
-
     // save param values to state for modal button click handlers
     setNewCellValue(newValue);
     setOldCellValue(oldValue);
@@ -57,15 +57,20 @@ const EditModal = () => {
     setRowNode(node);
 
     // temp validation
-    if (newValue.length > 1) {
+    if (newValue.length > 1 && !modalOpen) {
       dispatch(modalOpenSet(true));
     }
+    // TODO: add error handler if newValue is undefined
   };
 
   const handleModalClose = (): void => {
-    dispatch(modalOpenSet(false));
-
     if (rowNode) rowNode.setDataValue(colId, oldCellValue);
+    // TODO: add error handler if rowNode is undefined
+
+    // set timeout to trigger event after async setDataValue call
+    setTimeout(() => {
+      dispatch(modalOpenSet(false));
+    }, 0);
   };
 
   const handleModalSubmit = (): void => {
