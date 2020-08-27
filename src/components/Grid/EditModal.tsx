@@ -45,9 +45,10 @@ const EditModal = () => {
    *  4. Display loading spinner and snackbar to confirm changes
    */
   const onCellValueChanged = (params: NewValueParams) => {
-    const { colDef, newValue, node, oldValue } = params;
+    const { column, newValue, node, oldValue } = params;
+    const colId = column.getColId();
 
-    console.log('params', params);
+    console.log('params', params.column);
 
     // save param values to state for modal button click handlers
     setNewCellValue(newValue);
@@ -68,6 +69,7 @@ const EditModal = () => {
   };
 
   const handleModalSubmit = (): void => {
+    dispatch(modalOpenSet(false));
     // put new data to the backend
     // loading spinner
     // snackbar
