@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { GridReadyEvent } from "ag-grid-community";
-import ExampleCellComponent from "../ExampleCellComponent";
+import ExampleCellComponent from "../GridsConfig/CustomCellRender/ExampleCellComponent";
 
 import "ag-grid-enterprise/dist/styles/ag-grid.css";
 import "ag-grid-enterprise/dist/styles/ag-theme-material.css";
 
-import { columnDef } from "./columnDef";
-import { exampleRowData } from "./exampleRowData";
+import { columnDef } from "../GridsConfig/TrafficSources/columnsDef";
+import { exampleRowData } from "../GridsConfig/exampleRowData";
 
 const frameworkComponents = {
   exampleCellComponent: ExampleCellComponent,
