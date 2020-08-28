@@ -1,48 +1,26 @@
-import React, { Component } from "react";
+import React from 'react';
+import * as CSS from 'csstype';
 
 interface ExampleCellProps {
   value?: string;
 }
 
-interface ExampleCellState {
-  value?: string;
-}
+const createStyle = (): CSS.Properties => {
+  return {
+    height: '50%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  };
+};
 
-export default class ExampleCell extends Component<
-  ExampleCellProps,
-  ExampleCellState
-> {
-  constructor(props: ExampleCellProps) {
-    super(props);
+const ExampleCell = ({ value }: ExampleCellProps) => {
+  return (
+    <div style={{ height: '100%' }}>
+      <span style={createStyle()}>{value}</span>
+      <span style={createStyle()}>Buttom value</span>
+    </div>
+  );
+};
 
-    this.state = {
-      value: props.value,
-    };
-  }
-
-  render() {
-    return (
-      <div>
-        <span>
-          <p>
-            <span>{this.state.value}</span>
-          </p>
-        </span>
-      </div>
-    );
-  }
-}
-
-// export class ExampleCell extends React.Component<
-//   ICellRendererParams,
-//   RendererState
-// > {}
-
-// export const ExampleCell = (props: ExampleCellProps): JSX.Element => {
-//   const { value } = props;
-//   return (
-//     <div>
-//       <span>{value}</span>
-//     </div>
-//   );
-// };
+export default ExampleCell;
