@@ -1,4 +1,4 @@
-import { iColumn } from "../../Grid/iColumn";
+import { iColumn } from "../ColumnsBucket/iColumn";
 import {
   EmailColumn,
   FirstNameColumn,
@@ -9,9 +9,9 @@ import {
 
 export const columnDef: iColumn[] = [
   new IdColumn(),
-  new FirstNameColumn(true),
+  new FirstNameColumn(),
   new LastNameColumn(),
-  new EmailColumn(true),
+  new EmailColumn(),
   new PhoneColumn(),
   
 ];

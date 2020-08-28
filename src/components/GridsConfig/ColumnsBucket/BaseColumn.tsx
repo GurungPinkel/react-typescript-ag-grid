@@ -1,4 +1,5 @@
-import { iColumn } from "../../Grid/iColumn";
+import { iColumn } from "./iColumn";
+import { iColumnOptions } from "./iColumnOptions";
 import { ICellRendererComp, ICellRendererFunc } from "ag-grid-community";
 
 export abstract class BaseColumn implements iColumn {
@@ -15,25 +16,14 @@ export abstract class BaseColumn implements iColumn {
     | string;
   valueGetter?: any;
 
-  constructor(
-    editable?: boolean,
-    checkboxSelection?: boolean,
-    enableCellChangeFlash?: boolean,
-    cellRenderer?:
-      | {
-          new (): ICellRendererComp;
-        }
-      | ICellRendererFunc
-      | string,
-    valueGetter?: unknown
-  ) {
+  constructor(options?: iColumnOptions) {
     this.headerName = "";
     this.field = "";
 
-    this.editable = editable;
-    this.checkboxSelection = checkboxSelection;
-    this.enableCellChangeFlash = enableCellChangeFlash;
-    this.cellRenderer = cellRenderer;
-    this.valueGetter = valueGetter;
+    this.editable = options?.editable;
+    this.checkboxSelection = options?.checkboxSelection;
+    this.enableCellChangeFlash = options?.enableCellChangeFlash;
+    this.cellRenderer = options?.cellRenderer;
+    this.valueGetter = options?.valueGetter;
   }
 }

@@ -1,4 +1,4 @@
-import { iColumn } from "../../Grid/iColumn";
+import { iColumn } from "../ColumnsBucket/iColumn";
 import {
   AddressColumn,
   CityColumn,
@@ -13,10 +13,10 @@ import {
 } from "../ColumnsBucket/ColumnsBucket";
 
 export const columnDef: iColumn[] = [
-  new IdColumn(),
-  new FirstNameColumn(true),
+  new IdColumn({checkboxSelection:true}),
+  new FirstNameColumn({editable:true}),
   new LastNameColumn(),
-  new EmailColumn(true),
+  new EmailColumn({editable:true}),
   new PhoneColumn(),
   new NumberColumn(),
   new CompanyColumn(),
