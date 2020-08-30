@@ -26,4 +26,12 @@ export abstract class BaseColumn implements iColumn {
     this.cellRenderer = options?.cellRenderer;
     this.valueGetter = options?.valueGetter;
   }
+
+  protected setDefaultProp<T>(prop: T, defaultValue: T): T {
+    if (prop === undefined || prop === null) {
+      prop = defaultValue;
+    }
+
+    return prop;
+  }
 }
